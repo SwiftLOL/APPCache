@@ -25,7 +25,7 @@
     [self.window makeKeyAndVisible];
     
     
-    
+    //创建表
     [[AppCache shareInstance] createTable:@"user"];
 
     //存储number
@@ -67,6 +67,7 @@
     NSString *json = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
     [[AppCache shareInstance] setObject:json intoTable:@"user" byId:@"userResponse" timestamp:2462037226 checkSum:nil];
     AppCacheItem *item6 = [[AppCache shareInstance] getObjectFormTable:@"user" byObjectId:@"userResponse"];
+    //判断是否过期
     if(!item6.isInExpirationdate)
     {
         NSLog(@"数据过期");
