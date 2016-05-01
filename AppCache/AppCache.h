@@ -32,7 +32,6 @@
 
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////
 //APPCache中创建的table,都是按照AppCacheItem模型创建的。
 ///////////////////////////////////////////////////////////////////////////////////
@@ -60,8 +59,6 @@
 
 
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 //AppCache是基于FMDB的key-value式的存储方式。
 /*它比coreData、NSCoding、NSUserDefaults、FMDB的好处是，不需要为每个想存储的数据创建各种sql语句、
@@ -69,7 +66,16 @@
 */
 //////////////////////////////////////////////////////////////////////////////////////////
 
+
+typedef   NSData * _Nullable  (^HandleData)( NSData * _Nullable);
+
+
+
 @interface AppCache : NSObject
+//加密block
+@property(nonatomic,strong,nullable) HandleData  encryptionBlock;
+//解密block
+@property(nonatomic,strong,nullable) HandleData   decryptionBlock;
 
 //单例
 +(nullable instancetype)shareInstance;

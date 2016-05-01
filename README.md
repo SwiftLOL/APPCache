@@ -5,6 +5,16 @@
  
 #使用
 
+    [[AppCache shareInstance] setEncryptionBlock:^(NSData * data){
+        //在此可以对data进行加密，此处只做演示，直接返回data
+        return data;
+     }];
+
+    [[AppCache shareInstance] setDecryptionBlock:^(NSData * data){
+        //在此可以对data进行解密，此处只做演示，直接返回data
+        return  data;
+    }];
+
     //创建表
     [[AppCache shareInstance] createTable:@"user"];
 

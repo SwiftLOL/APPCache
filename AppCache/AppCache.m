@@ -146,14 +146,17 @@ static NSString * const APPCACHE_AES_CODE  = @"";
 
 
 
--(NSString *)path
+-(instancetype)init
 {
-   return [NSString stringWithFormat:@"%@/%@",APPCACHE_DATABASE_PATH,APPCACHE_DATABASE_NAME];
-}
-
--(FMDatabaseQueue *)dataBaseQueue
-{
-   return [FMDatabaseQueue databaseQueueWithPath:self.path];
+    self=[super init];
+    if(self)
+    {
+       self.path=[NSString stringWithFormat:@"%@/%@",APPCACHE_DATABASE_PATH,APPCACHE_DATABASE_NAME];
+        self.dataBaseQueue=[FMDatabaseQueue databaseQueueWithPath:self.path];
+        self.encryptionBlock=nil;
+        self.decryptionBlock=nil;
+    }
+    return self;
 }
 
 
@@ -238,6 +241,13 @@ static NSString * const APPCACHE_AES_CODE  = @"";
         }
         
         
+        if(self.encryptionBlock)
+        {
+            object=[object dataUsingEncoding:NSUTF8StringEncoding];
+            object=self.encryptionBlock(object);
+            object=[[NSString alloc] initWithData:object encoding:NSUTF8StringEncoding];
+        }
+        
         
         if(![self getObjectFormTable:tableName byObjectId:objectId])
         {
@@ -314,6 +324,14 @@ static NSString * const APPCACHE_AES_CODE  = @"";
         item.itemTimestamp=[[result stringForColumn:@"timestamp"] integerValue];
         item.checksum=[result stringForColumn:@"checksum"];
         item.type=[result stringForColumn:@"type"];
+    
+        if(self.decryptionBlock)
+        {
+            item.itemContent=[item.itemContent dataUsingEncoding:NSUTF8StringEncoding];
+            item.itemContent=self.decryptionBlock(item.itemContent);
+            item.itemContent=[[NSString alloc] initWithData:item.itemContent encoding:NSUTF8StringEncoding];
+        }
+    
         
         if([item.type isEqualToString:NSStringFromClass([NSNumber class])])
         {
