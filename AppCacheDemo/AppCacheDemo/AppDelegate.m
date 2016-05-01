@@ -84,6 +84,9 @@
     }
     NSLog(@"%@",item6.itemContent);
     
+    //清除user表
+    [[AppCache shareInstance] cleanTable:@"user"];
+    
     return YES;
 }
 

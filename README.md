@@ -68,4 +68,8 @@
     NSLog(@"%@",item6.itemContent);
     
     
-    ／／如果想建表存储model，可以使用第三方工具先将model转化为json、NSDictionary.
+    //清除user表
+    [[AppCache shareInstance] cleanTable:@"user"];
+
+    
+    ／／此处只是作为演示，完全可以建立user模型，创建user表，使用第三方工具先将model转化为json、NSDictionary后.按照userId存储user信息。
