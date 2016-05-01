@@ -2,6 +2,9 @@
 ##基于SQLite的key-value式的存储器
 >AppCache采用了基于SQLite的key-value式的存储方式。
 它比coreData、NSCoding、NSUserDefaults、FMDB的好处是:不需要为每个想存储的数据创建各种sql语句、不需要使用繁杂的coreData api、不需要实现NSCoding协议归档数据、不需要关心数据结构的变更，以及可以像使用NSUserDefaults的同时，对数据进行分类管理（将相关数据存储在同一个table中）,方便对数据进行统一管理，比如存储时统一加密、读取时统一解密，或者不需要的时候统一清除。
+
+#note
+   客户端如果有对缓存进行复杂的查询业务，建议直接使用FMDB进行建表，写各种复杂的查询sql语句。一般情况下，在app中这种需求很少，极少的model有这方面的需求。
  
 #使用
 
