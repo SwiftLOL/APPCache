@@ -65,7 +65,7 @@
     //存储json 设置有效期
     NSArray *array=[NSArray arrayWithObject:dic];
     NSString *json = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-    [[AppCache shareInstance] setObject:json intoTable:@"user" byId:@"userResponse" timestamp:2462037226 checkSum:nil];
+    [[AppCache shareInstance] setObject:json intoTable:@"user" byId:@"userResponse" timestamp:1300000000 checkSum:nil];
     AppCacheItem *item6 = [[AppCache shareInstance] getObjectFormTable:@"user" byObjectId:@"userResponse"];
     //判断是否过期
     if(!item6.isInExpirationdate)

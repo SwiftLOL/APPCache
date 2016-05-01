@@ -57,7 +57,7 @@ static NSString * const APPCACHE_CREATE_TABLE_SQL = @"create table if not exists
 (id text not null, \
 content text not null, \
 createdTime text not null, \
-timestamp integer , \
+timestamp text , \
 type text not null, \
 checksum text, \
 primary key(id))" ;
@@ -242,12 +242,12 @@ static NSString * const APPCACHE_AES_CODE  = @"";
         if(![self getObjectFormTable:tableName byObjectId:objectId])
         {
             [self.dataBaseQueue inDatabase:^(FMDatabase *db) {
-                [db executeUpdate:[NSString stringWithFormat:APPCACHE_INSERT_SQL,tableName],objectId,object,[[NSDate date] dateToString],[NSNumber numberWithInteger:timestamp],type,checksum];
+                [db executeUpdate:[NSString stringWithFormat:APPCACHE_INSERT_SQL,tableName],objectId,object,[[NSDate date] dateToString],[[NSNumber numberWithInteger:timestamp] stringValue],type,checksum];
             }];
         }else
         {
             [self.dataBaseQueue inDatabase:^(FMDatabase *db) {
-                [db executeUpdate:[NSString stringWithFormat:APPCACHE_UPDATE_SQL,tableName],objectId,object,[[NSDate date] dateToString],[NSNumber numberWithInteger:timestamp],type,checksum];
+                [db executeUpdate:[NSString stringWithFormat:APPCACHE_UPDATE_SQL,tableName],objectId,object,[[NSDate date] dateToString],[[NSNumber numberWithInteger:timestamp] stringValue],type,checksum];
             }];
         }
 
@@ -311,7 +311,7 @@ static NSString * const APPCACHE_AES_CODE  = @"";
         item.itemId=[result stringForColumn:@"id"];
         item.itemContent=[result stringForColumn:@"content"];
         item.itemCreateTime=[[result stringForColumn:@"createdTime"] stringToDate];
-        item.itemTimestamp=[result intForColumn:@"timestamp"];
+        item.itemTimestamp=[[result stringForColumn:@"timestamp"] integerValue];
         item.checksum=[result stringForColumn:@"checksum"];
         item.type=[result stringForColumn:@"type"];
         
