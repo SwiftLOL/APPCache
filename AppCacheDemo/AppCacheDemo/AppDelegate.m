@@ -87,6 +87,7 @@
     //清除user表
     [[AppCache shareInstance] cleanTable:@"user"];
     
+    
     return YES;
 }
 

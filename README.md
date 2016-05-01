@@ -8,6 +8,11 @@
  
 #使用
 
+
+    ／／此处只是作为演示，完全可以建立user模型，创建user表，使用第三方工具先将model转化为json、NSDictionary后.按照userId存储user信息。
+
+
+
     [[AppCache shareInstance] setEncryptionBlock:^(NSData * data){
         //在此可以对data进行加密，此处只做演示，直接返回data
         return data;
@@ -70,6 +75,3 @@
     
     //清除user表
     [[AppCache shareInstance] cleanTable:@"user"];
-
-    
-    ／／此处只是作为演示，完全可以建立user模型，创建user表，使用第三方工具先将model转化为json、NSDictionary后.按照userId存储user信息。
