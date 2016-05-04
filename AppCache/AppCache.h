@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FMDB.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,10 +73,15 @@ typedef   NSData * _Nullable  (^HandleData)( NSData * _Nullable);
 
 
 @interface AppCache : NSObject
+//暴露给外部 执行sql语句的接口
+@property(nonatomic,strong,nonnull)FMDatabaseQueue *dataBaseQueue;
 //加密block
 @property(nonatomic,strong,nullable) HandleData  encryptionBlock;
 //解密block
 @property(nonatomic,strong,nullable) HandleData   decryptionBlock;
+
+//配置路径
++(nullable instancetype)initialCacheWithPath:(nullable NSString *)path;
 
 //单例
 +(nullable instancetype)shareInstance;

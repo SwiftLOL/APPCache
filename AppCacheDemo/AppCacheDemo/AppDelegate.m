@@ -25,6 +25,12 @@
     [self.window makeKeyAndVisible];
     
     
+    
+    //配置路径 创建数据库
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    [AppCache initialCacheWithPath:[NSString stringWithFormat:@"%@/%@",path,@"cache.sqlite"]];
+    
+    
     [[AppCache shareInstance] setEncryptionBlock:^(NSData * data){
         //在此可以对data进行加密，此处只做演示，直接返回data
         return data;

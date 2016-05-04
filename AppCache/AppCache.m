@@ -7,7 +7,6 @@
 //
 
 #import "AppCache.h"
-#import "FMDB.h"
 
 
 #pragma mark -- NSString and  NSDate transform
@@ -48,10 +47,6 @@ static NSString * const APPCACHE_DATE_FORMATTER = @"yyyy-MM-dd HH:mm:ss zzz";
 
 
 #pragma mark -- AppCache const variable
-
-#define APPCACHE_DATABASE_PATH  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
-
-static NSString * const APPCACHE_DATABASE_NAME = @"cache.sqlite";
 
 static NSString * const APPCACHE_CREATE_TABLE_SQL = @"create table if not exists %@ \
 (id text not null, \
@@ -126,12 +121,23 @@ static NSString * const APPCACHE_AES_CODE  = @"";
 @interface AppCache ()
 
 @property(nonatomic,strong,nonnull)NSString *path;
-@property(nonatomic,strong,nonnull)FMDatabaseQueue *dataBaseQueue;
 
 @end
 
 
 @implementation AppCache
+
+
++(nullable instancetype)initialCacheWithPath:(nullable NSString *)path
+{
+    AppCache *cache = [AppCache shareInstance];
+    if(!cache.path)
+    {
+       cache.path=path;
+       cache.dataBaseQueue=[FMDatabaseQueue databaseQueueWithPath:path];
+    }
+    return cache;
+}
 
 
 +(nullable instancetype)shareInstance
@@ -151,8 +157,6 @@ static NSString * const APPCACHE_AES_CODE  = @"";
     self=[super init];
     if(self)
     {
-       self.path=[NSString stringWithFormat:@"%@/%@",APPCACHE_DATABASE_PATH,APPCACHE_DATABASE_NAME];
-        self.dataBaseQueue=[FMDatabaseQueue databaseQueueWithPath:self.path];
         self.encryptionBlock=nil;
         self.decryptionBlock=nil;
     }
@@ -177,6 +181,7 @@ static NSString * const APPCACHE_AES_CODE  = @"";
     [self.dataBaseQueue inDatabase:^(FMDatabase *db) {
         [db executeUpdate:[NSString stringWithFormat:APPCACHE_CLEAN_TABLE_SQL,tableName]];
     }];
+    
 }
 
 
